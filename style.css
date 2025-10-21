@@ -1,0 +1,337 @@
+/* ===== FONT & RESET ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Cinzel&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f2f2f2;
+  font-family: 'Cinzel', serif;
+  overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #111;
+  color: white;
+  padding: 10px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+#navbarlogo {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+.navbar button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+#cart-toggle {
+  position: relative;
+}
+
+#cart-count {
+  background: crimson;
+  color: white;
+  font-size: 12px;
+  border-radius: 50%;
+  padding: 2px 5px;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+/* ===== SIDEBAR MENU ===== */
+.sidebar {
+  position: fixed;
+  top: 50px; /* agar tidak tertutup navbar */
+  left: -220px;
+  width: 200px;
+  height: calc(100% - 50px);
+  background: white;
+  border-right: 1px solid #ddd;
+  transition: left 0.3s ease;
+  z-index: 900;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.sidebar-nav a {
+  text-decoration: none;
+  color: #111;
+  padding: 12px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+  transition: 0.3s;
+}
+
+.sidebar-nav a:hover {
+  color: #ff4c4c;
+}
+
+/* Overlay background saat sidebar aktif */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 800;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== HERO / BANNER ===== */
+.banner-section {
+  background: url('images/banner.jpg') center/cover no-repeat;
+  height: 250px;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+}
+
+/* ===== PRODUCT GRID ===== */
+.product-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 40px 20px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  width: 220px;
+  text-align: center;
+  padding: 15px;
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.product-name {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.product-rating {
+  color: gold;
+  margin: 5px 0;
+}
+
+.product-price {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.product-price img {
+  width: 14px;
+}
+
+.size-buttons {
+  margin-top: 8px;
+}
+
+.size-btn {
+  border: 1px solid #111;
+  background: transparent;
+  padding: 3px 8px;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.add-to-cart-btn {
+  background: #111;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-to-cart-btn:hover {
+  background: #333;
+}
+
+/* ===== SIDEBAR CART ===== */
+.sidebar-cart {
+  position: fixed;
+  top: 0;
+  right: -340px;
+  width: 300px;
+  height: 100%;
+  background: white;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-cart.active {
+  right: 0;
+}
+
+.cart-header {
+  background: #111;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Cinzel Decorative', serif;
+}
+
+.close-cart {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+#cart-items {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  font-weight: bold;
+}
+
+.checkout-btn {
+  background: #222;
+  color: white;
+  border: none;
+  margin: 0 15px 15px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.checkout-btn:hover {
+  background: #333;
+}
+
+/* ===== MODAL LOGIN ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1500;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-content button {
+  background: #111;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close {
+  float: right;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.size-btn.active {
+  background: #222;
+  color: #fff;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.cart-item-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+}
