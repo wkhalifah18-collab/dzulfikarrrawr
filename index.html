@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KIRA Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Cinzel&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <button id="menu-toggle">☰</button>
+    <div id="navbarlogo">Dzulfikar</div>
+    <button id="cart-toggle">
+      🛒
+      <span id="cart-count">0</span>
+    </button>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-nav">
+      <a href="#">Home</a>
+      <a href="#">Shop</a>
+      <a href="#">Collection</a>
+      <a href="#">About</a>
+      <a href="#" id="login-btn">Login</a>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Banner -->
+  <section class="banner-section" style="height: 250px; display:flex; justify-content:center; align-items:center; color:white; text-align:center;">
+    <div>
+      <h1>DZULFIKAR</h1>
+      <p>AMAN • CEPAT • TERPERCAYA</p>
+    </div>
+  </section>
+
+  <!-- Product Grid -->
+  <section class="product-grid">
+    <!-- Produk 1 -->
+ <!-- Produk 1 -->
+<div class="product-card">
+  <img src="images/hoodie1.jpg" alt="Hoodie 1" class="product-image">
+  <div class="product-name">Baju Hitam</div>
+  <div class="product-price">100.000</div>
+  <div class="size-buttons">
+    <button class="size-btn">M</button>
+    <button class="size-btn">L</button>
+    <button class="size-btn">XL</button>
+  </div>
+  <button class="add-to-cart-btn">Tambah Keranjang</button>
+</div>
+
+
+    <!-- Produk 2 -->
+<div class="product-card">
+  <img src="images/hoodie2.jpg" alt="Hoodie 2" class="product-image">
+  <div class="product-name">Baju Putih</div>
+  <div class="product-price">100.000</div>
+  <div class="size-buttons">
+    <button class="size-btn">M</button>
+    <button class="size-btn">L</button>
+    <button class="size-btn">XL</button>
+  </div>
+  <button class="add-to-cart-btn">Tambah Keranjang</button>
+</div>
+
+
+    <!-- Produk 3 -->
+<div class="product-card">
+  <img src="images/hoodie3.jpg" alt="Hoodie 3" class="product-image">
+  <div class="product-name">Baju Merah</div>
+  <div class="product-price">100.000</div>
+  <div class="size-buttons">
+    <button class="size-btn">M</button>
+    <button class="size-btn">L</button>
+    <button class="size-btn">XL</button>
+  </div>
+  <button class="add-to-cart-btn">Tambah Keranjang</button>
+</div>
+  </section>
+
+  <!-- Sidebar Cart -->
+  <div class="sidebar-cart" id="cart">
+    <div class="cart-header">
+      <span>Your Cart</span>
+      <button class="close-cart" id="close-cart">&times;</button>
+    </div>
+
+    <div id="cart-items"></div>
+
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total:</span>
+      <span class="cart-total">Rp <span id="cart-total">0</span></span>
+    </div>
+
+    <button class="checkout-btn">Checkout</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
