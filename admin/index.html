@@ -3,21 +3,59 @@
 <head>
   <title>ADMIN - Bukti Transfer</title>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    .order {
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 5px;
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    padding: 15px;
+    margin: 0;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .order {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .order p {
+    margin: 6px 0;
+    font-size: 14px;
+  }
+
+  .order b {
+    display: inline-block;
+    min-width: 80px;
+  }
+
+  .order img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 10px;
+    margin-top: 10px;
+    display: block;
+  }
+
+  /* Desktop */
+  @media (min-width: 768px) {
+    #orders {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 15px;
     }
-    img {
-      max-width: 300px;
-      display: block;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-    }
-  </style>
+  }
+</style>
+
 </head>
 <body>
 
@@ -44,15 +82,16 @@ async function loadOrders() {
   }
 
   ordersContainer.innerHTML = data.map(order => `
-    <div class="order">
-      <b>Nama:</b> ${order.nama}<br>
-      <b>Telepon:</b> ${order.telepon}<br>
-      <b>Metode:</b> ${order.metode}<br>
-      <b>Total:</b> Rp${order.total.toLocaleString("id-ID")}<br>
-      <b>Bukti:</b><br>
-      <img src="${order.bukti_url}">
-    </div>
-  `).join("");
+  <div class="order">
+    <p><b>Nama:</b> ${order.nama}</p>
+    <p><b>Telepon:</b> ${order.telepon}</p>
+    <p><b>Metode:</b> ${order.metode}</p>
+    <p><b>Total:</b> Rp${order.total.toLocaleString("id-ID")}</p>
+    <p><b>Bukti:</b></p>
+    <img src="${order.bukti_url}">
+  </div>
+`).join("");
+
 }
 
 loadOrders();
