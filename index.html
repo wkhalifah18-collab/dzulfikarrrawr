@@ -1,108 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KIRA Store</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Cinzel&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KIRA Store - Final </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ray.css" />
 </head>
-<body>
 
-  <!-- Navbar -->
+<body>
   <nav class="navbar">
-    <button id="menu-toggle">☰</button>
-    <div id="navbarlogo">Dzulfikar</div>
-    <button id="cart-toggle">
-      🛒
+    <button id="menu-toggle" aria-label="Toggle menu"><i class="ri-menu-line"></i></button>
+    <div id="navbarlogo" style="
+     background: linear-gradient(to bottom, #6aff00, #2b272722);
+
+       -webkit-background-clip: text;
+       color: transparent;
+       font-weight: 900;
+       font-size: 1.25rem;
+     ">
+      DZULFIKAR
+    </div>
+
+
+    <button id="cart-toggle" aria-label="Toggle cart" class="position-relative">
+      <i class="ri-shopping-bag-3-line"></i></i>
       <span id="cart-count">0</span>
     </button>
   </nav>
+<!-- Sidebar Menu -->
+<aside class="sidebar" id="sidebar-menu">
+  <nav class="sidebar-nav">
 
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-nav">
-      <a href="#">Home</a>
-      <a href="#">Shop</a>
-      <a href="#">Collection</a>
-      <a href="#">About</a>
-      <a href="#" id="login-btn">Login</a>
+    <!-- WhatsApp -->
+    <a href="https://wa.me/6282197770219" target="_blank" class="flex items-center gap-2">
+      <i class="ri-whatsapp-line text-xl"></i>
+      <span>WhatsApp</span>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://instagram.com/dzulfikar361" target="_blank" class="flex items-center gap-2">
+      <i class="ri-instagram-line text-xl"></i>
+      <span>Instagram</span>
+    </a>
+
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/rayhan.ray.9237244/" target="_blank" class="flex items-center gap-2">
+      <i class="ri-facebook-circle-line text-xl"></i>
+      <span>Facebook</span>
+    </a>
+
+  </nav>
+</aside>
+
+
+  <!-- Sidebar Cart -->
+  <aside class="sidebar-cart" id="sidebar-cart">
+<div class="cart-summary">
+  <span>Keranjang Kamu</span>
+  <button class="close-cart" id="close-cart">&times;</button>
+</div>
+
+    <div class="cart-items" id="cart-items"></div>
+
+    <!-- Keterangan total -->
+    <!-- Total belanja -->
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total Belanja:</span>
+      <span class="cart-total" id="cart-total">Rp0</span>
     </div>
-  </div>
+
+    <!-- Tombol checkout -->
+    <button class="checkout-btn" id="checkout-btn">
+      <i class="ri-shopping-bag-line" style="margin-right: 6px;"></i> Checkout
+    </button>
+
+  </aside>
 
   <!-- Overlay -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Banner -->
-  <section class="banner-section" style="height: 250px; display:flex; justify-content:center; align-items:center; color:white; text-align:center;">
-    <div>
-      <h1>DZULFIKAR</h1>
-      <p>AMAN • CEPAT • TERPERCAYA</p>
-    </div>
-  </section>
+  <!-- Main Content -->
+  <main>
+    <!-- Welcome Section -->
+    <section class="banner-section" style="text-align:center; padding: 6rem 2rem; color: white;">
+      <h5></h5>
+      <h1 style="font-weight: 800; font-size: 3rem; margin: 0.5rem 0;">DZULFIKAR</h1>
+      <p></p>
+    </section>
+    <!-- Products -->
+    <section class="product-grid" id="product">
+      <!-- Example product card, duplicate/change as needed -->
+      <div class="product-card" data-id="hitam" data-name="HOODIE Hitam" data-price="100000" data-image="images/4.jpg">
+        <img src="images/4.jpg" alt="Kaos Hitam" class="product-image" />
+        <h3 class="product-name">HOODIE HITAM</h3>
+       
+        <p class="product-price">
+          Rp100.000
+        </p>
+        <div class="size-buttons" role="group" aria-label="Pilih ukuran kaos hitam">
+          <button class="size-btn" type="button">M</button>
+          <button class="size-btn" type="button">L</button>
+          <button class="size-btn" type="button">XL</button>
+        </div>
+        <button class="add-to-cart-btn btn btn-success mt-auto" type="button"
+          aria-label="Tambah Hitam ke keranjang">Tambah Keranjang</button>
+      </div>
 
-  <!-- Product Grid -->
-  <section class="product-grid">
-    <!-- Produk 1 -->
- <!-- Produk 1 -->
-<div class="product-card">
-  <img src="images/hoodie1.jpg" alt="Hoodie 1" class="product-image">
-  <div class="product-name">Baju Hitam</div>
-  <div class="product-price">100.000</div>
-  <div class="size-buttons">
-    <button class="size-btn">M</button>
-    <button class="size-btn">L</button>
-    <button class="size-btn">XL</button>
-  </div>
-  <button class="add-to-cart-btn">Tambah Keranjang</button>
-</div>
+      <div class="product-card" data-id="putih" data-name="HOODIE MERAH" data-price="100000" data-image="images/5.jpg">
+        <img src="images/5.jpg" alt="Kaos Putih" class="product-image" />
+        <h3 class="product-name">HOODIE MERAH</h3>
+     
+        <p class="product-price">
+          Rp100.000
+        </p>
+        <div class="size-buttons" role="group" aria-label="Pilih ukuran kaos putih">
+          <button class="size-btn" type="button">M</button>
+          <button class="size-btn" type="button">L</button>
+          <button class="size-btn" type="button">XL</button>
+        </div>
+        <button class="add-to-cart-btn btn btn-success mt-auto" type="button"
+          aria-label="Tambah Putih ke keranjang">Tambah Keranjang</button>
+      </div>
+
+      <div class="product-card" data-id="merah" data-name="HOODIE PUTIH" data-price="100000" data-image="images/6.jpg">
+        <img src="images/6.jpg" alt="Kaos Putih" class="product-image" />
+        <h3 class="product-name">HOODIE PUTIH</h3>
+      
+        <p class="product-price">
+          Rp100.000
+        </p>
+        <div class="size-buttons" role="group" aria-label="Pilih ukuran kaos putih">
+          <button class="size-btn" type="button">M</button>
+          <button class="size-btn" type="button">L</button>
+          <button class="size-btn" type="button">XL</button>
+        </div>
+        <button class="add-to-cart-btn btn btn-success mt-auto" type="button"
+          aria-label="Tambah Putih ke keranjang">Tambah Keranjang</button>
+      </div>
 
 
-    <!-- Produk 2 -->
-<div class="product-card">
-  <img src="images/hoodie2.jpg" alt="Hoodie 2" class="product-image">
-  <div class="product-name">Baju Putih</div>
-  <div class="product-price">100.000</div>
-  <div class="size-buttons">
-    <button class="size-btn">M</button>
-    <button class="size-btn">L</button>
-    <button class="size-btn">XL</button>
-  </div>
-  <button class="add-to-cart-btn">Tambah Keranjang</button>
-</div>
+      <!-- Tambahkan produk lain sesuai format di atas -->
+    </section>
+
+    <!-- Transaksi Section -->
+    <section id="transaksi" style="padding: 1rem; max-width: 1200px; margin: auto; text-align: center;">
+      <h2>TRANSAKSI</h2>
+      <p>Metode pembayaran </p>
+      <!-- Bisa ditambahkan carousel gambar pembayaran di sini -->
+      <div class="payment-carousel">
+        <div class="carousel-track">
+          <img src="images/seabank.jpeg" alt="Seabank" />
+          <img src="images/gopay.jpeg" alt="Gopay" />
+          <img src="images/ovo.jpeg" alt="Ovo" />
+            <img src="images/shopeepay.jpeg" alt="Shopeepay" />
+          <img src="images/neobank.jpeg" alt="Neobank" />
+          <!-- Duplikat agar loop terlihat halus -->
+           <img src="images/seabank.jpeg" alt="Seabank" />
+          <img src="images/gopay.jpeg" alt="Gopay" />
+          <img src="images/ovo.jpeg" alt="Ovo" />
+               <img src="images/shopeepay.jpeg" alt="Shopeepay" />
+          <img src="images/neobank.jpeg" alt="Neobank" />
+          <!-- Duplikat agar loop terlihat halus -->
+             <img src="images/seabank.jpeg" alt="Seabank" />
+          <img src="images/gopay.jpeg" alt="Gopay" />
+          <img src="images/ovo.jpeg" alt="Ovo" />
+               <img src="images/shopeepay.jpeg" alt="Shopeepay" />
+          <img src="images/neobank.jpeg" alt="Neobank" />
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" style="padding: 1rem; max-width: 1200px; margin: auto; text-align: center;">
+      <h2>COD</h2>
+      <p>silahkan pesan melalui Whatsapp
+      </p>
 
 
-    <!-- Produk 3 -->
-<div class="product-card">
-  <img src="images/hoodie3.jpg" alt="Hoodie 3" class="product-image">
-  <div class="product-name">Baju Merah</div>
-  <div class="product-price">100.000</div>
-  <div class="size-buttons">
-    <button class="size-btn">M</button>
-    <button class="size-btn">L</button>
-    <button class="size-btn">XL</button>
-  </div>
-  <button class="add-to-cart-btn">Tambah Keranjang</button>
-</div>
-  </section>
+    </section>
+  </main>
 
-  <!-- Sidebar Cart -->
-  <div class="sidebar-cart" id="cart">
-    <div class="cart-header">
-      <span>Your Cart</span>
-      <button class="close-cart" id="close-cart">&times;</button>
-    </div>
+  <footer style="text-align:center; padding: 1rem; background:#000; color:white; margin-top: 2rem;">
+    &copy; 2025 DZULFIKAR, Inc.
+  </footer>
 
-    <div id="cart-items"></div>
+  <!-- Bootstrap JS Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <div class="cart-total-row">
-      <span class="cart-total-label">Total:</span>
-      <span class="cart-total">Rp <span id="cart-total">0</span></span>
-    </div>
+  <script src="app.js"></script> <!-- Pastikan path-nya sesuai -->
 
-    <button class="checkout-btn">Checkout</button>
-  </div>
-
-  <script src="script.js"></script>
 </body>
+
 </html>
