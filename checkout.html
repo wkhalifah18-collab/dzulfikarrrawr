@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout</title>
-  <style>
-    body { font-family: "Segoe UI", sans-serif; background: #f5f6fa; margin: 0; padding: 20px; }
-    .container { max-width: 600px; margin: auto; }
-    .checkout-item { display: flex; align-items: center; justify-content: space-between; background: white; padding: 12px; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    .checkout-item img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
-    form { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 20px; }
-    label { display: block; margin-top: 10px; font-weight: 600; }
-    input, textarea, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-top: 5px; }
-    #manual-payment { display: none; background: #fff; border-radius: 10px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 15px; }
-    #bukti-container { display: none; margin-top: 15px; text-align: center; }
-    #preview-bukti { margin-top: 10px; width: 100%; max-width: 300px; border-radius: 8px; border: 1px solid #ccc; display: none; }
-    button { width: 100%; padding: 12px; background: #2ecc71; border: none; color: white; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
-    button:hover { background: #27ae60; }
-    .total { font-weight: bold; font-size: 18px; text-align: right; margin-top: 10px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+body { font-family: "Segoe UI", sans-serif; background: #f5f6fa; margin: 0; padding: 20px; }
+.container { max-width: 600px; margin: auto; }
+.checkout-item { display: flex; align-items: center; justify-content: space-between; background: white; padding: 12px; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.checkout-item img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+form { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 20px; }
+label { display: block; margin-top: 10px; font-weight: 600; }
+input, textarea, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-top: 5px; }
+#manual-payment { display: none; background: #fff; border-radius: 10px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 15px; }
+#bukti-container { display: none; margin-top: 15px; text-align: center; }
+#preview-bukti { margin-top: 10px; width: 100%; max-width: 300px; border-radius: 8px; border: 1px solid #ccc; display: none; }
+button { width: 100%; padding: 12px; background: #2ecc71; border: none; color: white; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; }
+button:hover { background: #27ae60; }
+.total { font-weight: bold; font-size: 18px; text-align: right; margin-top: 10px; }
+</style>
 </head>
 
 <body>
@@ -29,16 +32,16 @@
   <div class="total">Total: <span id="total-price">Rp0</span></div>
 
   <form id="checkout-form">
-    <label for="nama">Nama Lengkap</label>
-    <input type="text" id="nama" name="nama" required>
+    <label>Nama Lengkap</label>
+    <input type="text" id="nama" required>
 
-    <label for="telepon">Nomor HP</label>
-    <input type="tel" id="telepon" name="telepon" required pattern="[0-9]{10,15}">
+    <label>Nomor HP</label>
+    <input type="tel" id="telepon" required pattern="[0-9]{10,15}">
 
-    <label for="alamat">Alamat Lengkap</label>
-    <textarea id="alamat" name="alamat" required></textarea>
+    <label>Alamat Lengkap</label>
+    <textarea id="alamat" required></textarea>
 
-    <label for="payment-method">Pilih Metode Pembayaran:</label>
+    <label>Pilih Metode Pembayaran:</label>
     <select id="payment-method" required>
       <option value="">-- Pilih Metode --</option>
       <option value="Shopeepay">Shopeepay</option>
@@ -51,46 +54,66 @@
     <div id="manual-payment"></div>
 
     <div id="bukti-container">
-      <label for="bukti-transfer">Upload Bukti Transfer:</label>
-      <input type="file" id="bukti-transfer" accept="image/*">
+      <label>Upload Bukti Transfer:</label>
+    <input type="file" id="bukti" accept="image/*" required>
+
       <img id="preview-bukti">
     </div>
 
-    <button type="submit" id="complete-payment">Selesai Bayar</button>
+    <button type="submit">Selesai Bayar</button>
   </form>
 </div>
 
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+
+  const SUPABASE_URL = "https://hbfthwohrrzqitxbfeqc.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhiZnRod29ocnJ6cWl0eGJmZXFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NzQ1MzQsImV4cCI6MjA4MDA1MDUzNH0.TxKRzjhqU85Iz9z6ZQgRg7uorDNALoVLq0GIf9MRNxM";
+  const BUCKET_NAME = "bukti-pembayaran";
+
+  const { createClient } = supabase;
+  const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
   const checkoutList = document.getElementById("checkout-list");
   const totalPriceEl = document.getElementById("total-price");
   const paymentSelect = document.getElementById("payment-method");
   const manualPayment = document.getElementById("manual-payment");
   const buktiContainer = document.getElementById("bukti-container");
-  const buktiInput = document.getElementById("bukti-transfer");
-  const previewBukti = document.getElementById("preview-bukti");
 
-  const formatRupiah = n => "Rp" + n.toLocaleString("id-ID");
-  const cart = JSON.parse(localStorage.getItem("checkout")) || [];
+  const namaInput = document.getElementById("nama");
+  const teleponInput = document.getElementById("telepon");
+  const alamatInput = document.getElementById("alamat");
+  const checkoutForm = document.getElementById("checkout-form");
+  const buktiInput = document.getElementById("bukti");
 
-  if (cart.length === 0) {
-    checkoutList.innerHTML = `<p style="text-align:center;color:#999;">Keranjang kamu kosong.</p>`;
-    document.getElementById("complete-payment").disabled = true;
+  const formatRupiah = n => "Rp" + Number(n).toLocaleString("id-ID");
+
+  const cart = JSON.parse(localStorage.getItem("checkout"));
+
+  if (!cart || cart.length === 0) {
+    checkoutList.innerHTML = `<p style="text-align:center;color:#999;">Keranjang kamu kosong</p>`;
     return;
   }
 
   let total = 0;
+
   checkoutList.innerHTML = cart.map(item => {
-    const price = Number(item.price) || 0;
-    const qty = Number(item.qty) || 1;
+    const image = item.image || item.img || item.foto || "https://via.placeholder.com/60";
+    const name = item.name || item.nama_produk || "Produk";
+    const size = item.size || item.ukuran || "-";
+    const price = Number(item.price || item.harga || 0);
+    const qty = Number(item.qty || 1);
+
     total += price * qty;
+
     return `
       <div class="checkout-item">
         <div style="display:flex;align-items:center;gap:10px;">
-          <img src="${item.image}">
+          <img src="${image}">
           <div>
-            <strong>${item.name}</strong><br>
-            <small>Ukuran: ${item.size}</small><br>
+            <strong>${name}</strong><br>
+            <small>Ukuran: ${size}</small><br>
             <span style="color:green;">${formatRupiah(price * qty)}</span>
           </div>
         </div>
@@ -102,91 +125,127 @@ document.addEventListener("DOMContentLoaded", () => {
   totalPriceEl.textContent = formatRupiah(total);
 
   const paymentInfo = {
-    Shopeepay: { nama: "Shopeepay", info: "Nomor: 082197770219 (DZULFIKAR RAYHAN BOWENG)" },
-    Gopay: { nama: "GoPay", info: "Nomor: 082197770219 (DZULFIKAR RAYHAN BOWENG)" },
-    Ovo: { nama: "Ovo", info: "Nomor: 082197770219 (DZULFIKAR RAYHAN BOWENG)" },
-    Seabank: { nama: "Seabank", info: "Rek: 9019-0569-4689" },
-    Neobank: { nama: "Neobank", info: "Rek: 5859-4572-0870-8191" },
+    Shopeepay: "Nomor: 082197770219 (DZULFIKAR RAYHAN BOWENG)",
+    Gopay: "Nomor: 082197770219 (DZULFIKAR RAYHAN BOWENG)",
+    Ovo: "Nomor: 082197770219 (DZULFIKAR RAYHAN BOWENG)",
+    Seabank: "Rek: 9019-0569-4689",
+    Neobank: "Rek: 5859-4572-0870-8191"
   };
 
   paymentSelect.addEventListener("change", () => {
-    const method = paymentSelect.value;
-    if (!method) {
+    const value = paymentSelect.value;
+
+    if (!value) {
       manualPayment.style.display = "none";
       buktiContainer.style.display = "none";
       return;
     }
 
-    const data = paymentInfo[method];
     manualPayment.style.display = "block";
-    manualPayment.innerHTML = `
-      <h3>Instruksi Pembayaran (${data.nama})</h3>
-      <p>${data.info}</p>
-      <p><strong>Total:</strong> ${formatRupiah(total)}</p>
-      <p>Upload bukti pembayaran:</p>
-    `;
     buktiContainer.style.display = "block";
+
+    manualPayment.innerHTML = `
+      <h3>Instruksi Pembayaran</h3>
+      <p><b>${value}</b></p>
+      <p>${paymentInfo[value]}</p>
+      <hr>
+      <p><b>Total: ${formatRupiah(total)}</b></p>
+      <p>Silakan transfer lalu upload bukti di bawah.</p>
+    `;
   });
+checkoutForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  buktiInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        previewBukti.src = reader.result;
-        previewBukti.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-    }
-  });
+  if (!paymentSelect.value) {
+    alert("Pilih metode pembayaran dulu!");
+    return;
+  }
 
-  // ============================================
-  //     PERUBAHAN PENTING DI SINI !!!
-  // ============================================
-  document.getElementById("checkout-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  if (!buktiInput.files[0]) {
+    alert("Upload bukti pembayaran dulu!");
+    return;
+  }
 
-    const nama = document.getElementById("nama").value;
-    const telepon = document.getElementById("telepon").value;
-    const alamat = document.getElementById("alamat").value;
-    const metode = paymentSelect.value;
-    const bukti = buktiInput.files[0];
+  try {
+  const BUCKET_NAME = "bukti-transfer"; // ✅ TARUH DI ATAS
 
-    if (!bukti) {
-      alert("Harap upload bukti transfer.");
+  const file = buktiInput.files[0];
+  const fileName = `${Date.now()}-${file.name.replace(/\s/g, "-")}`;
+
+  console.log("BUCKET:", BUCKET_NAME);
+
+  // 1. UPLOAD BUKTI KE STORAGE
+  const { error: uploadError } = await client.storage
+    .from(BUCKET_NAME)
+    .upload(fileName, file);
+
+  if (uploadError) {
+    console.error("UPLOAD ERROR:", uploadError);
+    alert("Gagal upload bukti ke Supabase!");
+    return;
+  }
+
+  // 2. AMBIL URL BUKTI
+  const { data: publicData } = client.storage
+    .from(BUCKET_NAME)
+    .getPublicUrl(fileName);
+
+  const buktiUrl = publicData.publicUrl;
+
+  // 3. SIMPAN KE TABLE ORDERS
+  const { data: orderData, error: orderError } = await client
+    .from("orders")
+    .insert([{
+      nama: namaInput.value,
+      telepon: teleponInput.value,
+      alamat: alamatInput.value,
+      metode: paymentSelect.value,
+      total: Number(total),
+      bukti_url: buktiUrl
+    }])
+    .select()
+    .single();
+
+  if (orderError) {
+    console.error("ORDER ERROR:", orderError);
+    alert("Gagal menyimpan data order!");
+    return;
+  }
+
+
+    // 4. SIMPAN ITEM KE order_items
+    const itemsData = cart.map(item => ({
+      order_id: orderData.id,
+      name: item.name || item.nama_produk || "Produk",
+      size: item.size || item.ukuran || "-",
+      price: Number(item.price || item.harga || 0),
+      qty: Number(item.qty || item.jumlah || 1),
+    }));
+
+    const { error: itemsError } = await client
+      .from("order_items")
+      .insert(itemsData);
+
+    if (itemsError) {
+      console.error("ITEMS ERROR:", itemsError);
+      alert("Gagal menyimpan data produk!");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("bukti", bukti);
-    formData.append("nama", nama);
-    formData.append("telepon", telepon);
-    formData.append("alamat", alamat);
-    formData.append("metode", metode);
-    formData.append("total", total);
+    // 5. SUKSES
+    alert("Pesanan berhasil dikirim!");
+    localStorage.removeItem("checkout");
+    window.location.href = "success.html";
 
-    try {
-      // 🔥 Perubahan: dari /transaksi → /api/transaksi
-      const res = await fetch("/api/transaksi", {
-        method: "POST",
-        body: formData
-      });
+  } catch (err) {
+    console.error("GLOBAL ERROR:", err);
+    alert("Terjadi error tak terduga, cek console (F12)");
+  }
+});
 
-      const result = await res.json();
 
-      if (res.ok) {
-        alert(`Transaksi berhasil!\nTerima kasih, ${nama}.`);
-        localStorage.removeItem("checkout");
-        window.location.href = "index.html";
-      } else {
-        alert("Gagal menyimpan transaksi: " + (result.error || "Kesalahan server"));
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Terjadi kesalahan koneksi ke server.");
-    }
-  });
 });
 </script>
+
 </body>
 </html>
