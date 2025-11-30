@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Bukti Transfer</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    img {
+      margin-top: 10px;
+      max-width: 250px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+<h2>📦 Admin - Bukti Transfer</h2>
+<div id="data"></div>
+
+<script>
+  const SUPABASE_URL = "https://hbfthwohrrzqitxbfeqc.supabase.co";
+  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhiZnRod29ocnJ6cWl0eGJmZXFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ0NzQ1MzQsImV4cCI6MjA4MDA1MDUzNH0.TxKRzjhqU85Iz9z6ZQgRg7uorDNALoVLq0GIf9MRNxM";
+
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadOrders() {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) {
+      alert("Gagal ambil data");
+      console.log(error);
+      return;
+    }
+
+    const wrapper = document.getElementById("data");
+    wrapper.innerHTML = "";
+
+    data.forEach(order => {
+      wrapper.innerHTML += `
+        <div class="card">
+          <strong>Nama:</strong> ${order.nama}<br>
+          <strong>Telepon:</strong> ${order.telepon}<br>
+          <strong>Alamat:</strong> ${order.alamat}<br>
+          <strong>Metode:</strong> ${order.metode}<br>
+          <strong>Total:</strong> Rp${order.total}<br>
+          <strong>Bukti Transfer:</strong><br>
+          <img src="${order.bukti_url}" onerror="this.src='https://via.placeholder.com/250?text=Gambar+tidak+ada'">
+        </div>
+      `;
+    });
+  }
+
+  loadOrders();
+</script>
+
+</body>
+</html>
